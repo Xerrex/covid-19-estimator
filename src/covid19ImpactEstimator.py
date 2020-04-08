@@ -88,7 +88,7 @@ def covid19ImpactEstimator(timeToElapseInDays, reportedCases, totalHospitalBeds,
     
     factor = int(timeToElapseInDays / 3)
     multiplier = 2 ** factor
-    expectedHospitalBeds = int(totalHospitalBeds * 0.35)
+    expectedHospitalBeds = totalHospitalBeds * 0.35
 
     if impact == None:
       currentlyInfected = reportedCases * 10
@@ -99,7 +99,7 @@ def covid19ImpactEstimator(timeToElapseInDays, reportedCases, totalHospitalBeds,
     elif impact == "severe":
       currentlyInfected = reportedCases * 50
       infectionsByRequestedTime = currentlyInfected * multiplier
-      severeCasesByRequestedTime = int(infectionsByRequestedTime * 0.15)
+      severeCasesByRequestedTime = infectionsByRequestedTime * 0.15
       hospitalBedsByRequestedTime = expectedHospitalBeds - severeCasesByRequestedTime
 
     return {
