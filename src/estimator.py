@@ -10,11 +10,11 @@ def estimator(data):
 
 	# impact estimate
 	impact = covid19ImpactEstimator(timeToElapseInDays, 
-				data["reportedCases"])
+				data["reportedCases"], data["totalHospitalBeds"],)
 
-	# 
+	# severe impact estimate
 	severeImpact = covid19ImpactEstimator(timeToElapseInDays,
-				data["reportedCases"], impact="severe")
+				data["reportedCases"], data["totalHospitalBeds"], impact="severe")
 
 	data = {
 		"data": data,
