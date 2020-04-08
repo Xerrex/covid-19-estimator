@@ -16,15 +16,9 @@ data_provided = {
 }
 
 estimated_values = {
-    data: {},
-    impact: {
-        "currentlyInfected": reportedCases*10,
-        "infectionsByRequestedTime": "currentlyInfected x (2 to the power of int(days/3))",
-    }, 
-    severeImpact: {
-        "currentlyInfected": reportedCases*50,
-        "infectionsByRequestedTime": "currentlyInfected x (2 to the power of int(days/3))",
-    } #your severe case esitmation
+    data: {}, # the input data you got
+    impact: {}, your best case estimation
+    severeImpact: {} #your severe case esitmation
 }
 """
 
@@ -36,13 +30,13 @@ def days_calculator(periodType, period):
     It assumes a month has 30 days.
 
     Arguments:
-        periodType {str:String} 
-            -- type in which period is provided ie. days, weeks, months
+      - periodType {str:String} 
+          -- type in which period is provided ie. days, weeks, months
 
-        period {int:Integer} -- numeric value of the quantity of time.
+      - period {int:Integer} -- numeric value of the quantity of time.
     
     Returns:
-        int:Integer -- the number of days 
+      - int:Integer -- the number of days 
     """
 
     if periodType == "days":
@@ -57,54 +51,51 @@ def days_calculator(periodType, period):
     return int(days)
 
 
-def covid19ImpactEstimator(timeToElapseInDays, reportedCases, totalHospitalBeds, impact=None):
-    """Calculates the impact per estimates
+def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
+  """Calculate the covid 19 estimates
 
-    Asssumtions:\n
-      1. At best that currently infected persons are
-        reportedCases * 10 
-      2. At Severe that currenlty infected persons are
-        reportedCases * 50
-      3. Infections double every 3 days
-		  4. 15% severe positive cases require hospitalization to recover 
-		  5. 35% bed availability in hospitals for severe 
-			  COVID-19 positive patients.
+  Assumptions:
+    - Infections double every 3 days.
+    - 15% severe positive cases require hospitalization to recover.
+    - 35% bed availability in hospitals for severe.
+    - 5%  of infections cases require ICU.
 
-    Arguments:
+  Arguments:
+    - impact {int: integer} -- value to multiply reported cases 
+        as per scenario ie. best_case or worstcase
+    - timeToElapseInDays {int: integer} -- number of days for the estimate.
 
-      timeToElapseInDays {int:Integer} -- number of days for the estimate
-      reportedCases {int:Integer} -- the number of reported infected cases
-      totalHospitalBeds {int:Integer} -- number of avaialbe hospital beds
+  Keyword Arguments:
+    - reportedCases {int:integer} -- number of positive cases.
+    - avgDailyIncomeInUSD {numeric} --the average daily income in USD.
+    - avgDailyIncomePopulation {numeric} -- Average Daily Income Population.
+    - totalHospitalBeds {int:Integer} -- total available Hospital Beds.
 
-    Keyword Arguments:
+  Returns:
+    - dict() -- values for the Novel covid-19
+  """
+  
+  multiplier = 2 ** int(timeToElapseInDays / 3)
+  expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
+  aDIIU = data["avgDailyIncomeInUSD"]
+  aDIP = data["avgDailyIncomePopulation"]
 
-      impact {str:string} -- the impact to esitmate (default: {None})
 
-    Returns:
+  cI = data["reportedCases"] * impact
+  iBRT = cI * multiplier
+  sCBRT = iBRT * 0.15
+  hBBRT = expectedHospitalBeds - sCBRT
+  cFICUBRT = iBRT * 0.05,
+  cFVBRT = iBRT * 0.02
+  dollarsInFlight = iBRT* timeToElapseInDays * aDIIU * aDIP
 
-        dict(): Dictionary -- contains the keys 'currentlyInfected'
-            'infectionsByRequestedTime' an their values
-    """
-    
-    factor = int(timeToElapseInDays / 3)
-    multiplier = 2 ** factor
-    expectedHospitalBeds = totalHospitalBeds * 0.35
-
-    if impact == None:
-      currentlyInfected = reportedCases * 10
-      infectionsByRequestedTime = currentlyInfected * multiplier
-      severeCasesByRequestedTime = infectionsByRequestedTime * 0.15
-      hospitalBedsByRequestedTime = expectedHospitalBeds - severeCasesByRequestedTime
-
-    elif impact == "severe":
-      currentlyInfected = reportedCases * 50
-      infectionsByRequestedTime = currentlyInfected * multiplier
-      severeCasesByRequestedTime = infectionsByRequestedTime * 0.15
-      hospitalBedsByRequestedTime = expectedHospitalBeds - severeCasesByRequestedTime
-
-    return {
-      "currentlyInfected": currentlyInfected,
-      "infectionsByRequestedTime": infectionsByRequestedTime,
-			"severeCasesByRequestedTime": severeCasesByRequestedTime,
-      "hospitalBedsByRequestedTime":  hospitalBedsByRequestedTime
+  return {
+      "currentlyInfected": cI,
+      "infectionsByRequestedTime": iBRT,
+			"severeCasesByRequestedTime": sCBRT,
+      "hospitalBedsByRequestedTime":  hBBRT,
+      "casesForICUByRequestedTime": cFICUBRT,
+      "casesForVentilatorsByRequestedTime": cFVBRT,
+      "dollarsInFlight": dollarsInFlight
     } 
+
