@@ -76,7 +76,7 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	"""
 
 	multiplier = 2 ** int(timeToElapseInDays / 3)
-	expectedHospitalBeds = int(data["totalHospitalBeds"] * 0.35)
+	expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
 	aDIIU = data["avgDailyIncomeInUSD"]
 	aDIP = data["avgDailyIncomePopulation"]
 
