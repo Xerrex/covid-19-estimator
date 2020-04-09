@@ -80,22 +80,22 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	aDIIU = data["avgDailyIncomeInUSD"]
 	aDIP = data["avgDailyIncomePopulation"]
 
-	cI = int(data["reportedCases"] * impact)
+	cI = data["reportedCases"] * impact
 	iBRT = cI * multiplier
-	sCBRT = int(iBRT * 0.15)
+	sCBRT = iBRT * 0.15
 	hBBRT = expectedHospitalBeds - sCBRT
-	cFICUBRT = int(iBRT * 0.05)
-	cFVBRT = int(iBRT * 0.02)
+	cFICUBRT = iBRT * 0.05
+	cFVBRT = iBRT * 0.02
 
 	dollarsInFlight = iBRT * timeToElapseInDays * aDIIU * aDIP
 	dollarsInFlight = float(f"{dollarsInFlight: .2f}")
 
 	return {
-		"currentlyInfected": cI,
-		"infectionsByRequestedTime": iBRT,
-		"severeCasesByRequestedTime": sCBRT,
-		"hospitalBedsByRequestedTime": hBBRT,
-		"casesForICUByRequestedTime": cFICUBRT,
-		"casesForVentilatorsByRequestedTime": cFVBRT,
+		"currentlyInfected": int(cI),
+		"infectionsByRequestedTime": int(iBRT),
+		"severeCasesByRequestedTime": int(sCBRT),
+		"hospitalBedsByRequestedTime": int(hBBRT),
+		"casesForICUByRequestedTime": int(cFICUBRT),
+		"casesForVentilatorsByRequestedTime": int(cFVBRT),
 		"dollarsInFlight": dollarsInFlight
 	} 
