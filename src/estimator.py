@@ -1,18 +1,20 @@
-from .covid19ImpactEstimator import days_calculator, \
+#!/usr/bin/python3
+
+from src.covid19ImpactEstimator import days_calculator, \
 	covid19ImpactEstimator
 
 
 def estimator(data):
-
-	# convert time to days
-	timeToElapseInDays = days_calculator(data["periodType"], 
-							data["timeToElapse"])
-
+	
 	# Unpack data
 	aDIIU = data["region"]["avgDailyIncomeInUSD"]
 	aDIP = data["region"]["avgDailyIncomePopulation"]
 	reportedCases = data["reportedCases"]
 	totalHospitalBeds = data["totalHospitalBeds"]
+
+  # convert time to days
+	timeToElapseInDays = days_calculator(data["periodType"], 
+							data["timeToElapse"])
 
 	# impact estimate
 	best_case_estimation = covid19ImpactEstimator(10, timeToElapseInDays, 

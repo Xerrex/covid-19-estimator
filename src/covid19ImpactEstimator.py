@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 """COVID-19 Impact Estimator
 
 
