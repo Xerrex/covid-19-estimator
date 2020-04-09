@@ -87,8 +87,8 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	cFICUBRT = iBRT * 0.05
 	cFVBRT = iBRT * 0.02
 
-	dollarsInFlight = iBRT * timeToElapseInDays * aDIIU * aDIP
-	dollarsInFlight = float(f"{dollarsInFlight: .2f}")
+	dollarsInFlight = iBRT * aDIIU * aDIP * timeToElapseInDays
+	dollarsInFlight = f"{dollarsInFlight: .2f}"
 
 	return {
 		"currentlyInfected": int(cI),
@@ -97,5 +97,5 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 		"hospitalBedsByRequestedTime": int(hBBRT),
 		"casesForICUByRequestedTime": int(cFICUBRT),
 		"casesForVentilatorsByRequestedTime": int(cFVBRT),
-		"dollarsInFlight": dollarsInFlight
+		"dollarsInFlight": float(dollarsInFlight)
 	} 
