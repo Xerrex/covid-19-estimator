@@ -17,7 +17,7 @@ data_provided = {
     "totalHospitalBeds": 1389614
 }
 
-estimated_values = {
+data_expected = {
     data: {}, # the input data you got
     impact: {}, your best case estimation
     severeImpact: {} #your severe case esitmation
@@ -26,31 +26,31 @@ estimated_values = {
 
 
 def days_calculator(periodType, period):
-    """Calculates days from period and the period type 
-    provided in arguements.
-    
-    It assumes a month has 30 days.
+  """Calculates days from period and the period type 
+  provided in arguements.
+  
+  It assumes a month has 30 days.
 
-    Arguments:
-      - periodType {str:String} 
-          -- type in which period is provided ie. days, weeks, months
+  Arguments:
+    - periodType {str:String} 
+        -- type in which period is provided ie. days, weeks, months
 
-      - period {int:Integer} -- numeric value of the quantity of time.
-    
-    Returns:
-      - int:Integer -- the number of days 
-    """
+    - period {int:Integer} -- numeric value of the quantity of time.
+  
+  Returns:
+    - int:Integer -- the number of days 
+  """
 
-    if periodType == "days":
-        days = period
-    elif periodType == "weeks":
-        days = period * 7
-    elif periodType == "months":
-        days = period * 30
-    else:
-        return None
-    
-    return int(days)
+  if periodType == "days":
+    days = period
+  elif periodType == "weeks":
+    days = period * 7
+  elif periodType == "months":
+    days = period * 30
+  else:
+    return None
+  
+  return int(days)
 
 
 def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
