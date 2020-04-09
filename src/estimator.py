@@ -12,9 +12,9 @@ def estimator(data):
 	reportedCases = data["reportedCases"]
 	totalHospitalBeds = data["totalHospitalBeds"]
 
-  # convert time to days
+	# convert time to days
 	timeToElapseInDays = days_calculator(data["periodType"], 
-							          data["timeToElapse"])
+								data["timeToElapse"])
 
 	# impact estimate
 	best_case_estimation = covid19ImpactEstimator(10, timeToElapseInDays, 

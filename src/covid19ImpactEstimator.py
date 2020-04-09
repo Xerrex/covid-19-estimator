@@ -2,7 +2,6 @@
 
 """COVID-19 Impact Estimator
 
-
 data_provided = {
     "region":{
         "name": "Africa",
@@ -26,76 +25,75 @@ data_expected = {
 
 
 def days_calculator(periodType, period):
-  """Calculates days from period and the period type
-  provided in arguements.
+	"""Calculates days from period and the period type
+	provided in arguements.
 
-  It assumes a month has 30 days.
+	It assumes a month has 30 days.
 
-  Arguments:
-    - periodType {str:String} 
-        -- type in which period is provided ie. days, weeks, months.
+	Arguments:
+	- periodType {str:String} 
+		-- type in which period is provided ie. days, weeks, months.
 
-    - period {int:Integer} -- numeric value of the quantity of time.
-  
-  Returns:
-    - int:Integer -- the number of days.
-  """
+	- period {int:Integer} -- numeric value of the quantity of time.
 
-  if periodType == "days":
-    days = period
-  elif periodType == "weeks":
-    days = period * 7
-  elif periodType == "months":
-    days = period * 30
-  else:
-    return None
+	Returns:
+	- int:Integer -- the number of days.
+	"""
 
-  return int(days)
+	if periodType == "days":
+		days = period
+	elif periodType == "weeks":
+		days = period * 7
+	elif periodType == "months":
+		days = period * 30
+	else:
+		return None
+	return int(days)
 
 
 def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
-  """Calculate the covid 19 estimates
+	"""Calculate the covid 19 estimates
 
-  Assumptions:
-    - Infections double every 3 days.
-    - 15% severe positive cases require hospitalization to recover.
-    - 35% bed availability in hospitals for severe.
-    - 5%  of infections cases require ICU.
+	Assumptions:
+	- Infections double every 3 days.
+	- 15% severe positive cases require hospitalization to recover.
+	- 35% bed availability in hospitals for severe.
+	- 5%  of infections cases require ICU.
 
-  Arguments:
-    - impact {int: integer} -- value to multiply reported cases.
-        as per scenario ie. best_case or worstcase.
-    - timeToElapseInDays {int: integer} -- number of days for the estimate.
+	Arguments:
+	- impact {int: integer} -- value to multiply reported cases.
+		as per scenario ie. best_case or worstcase.
+	- timeToElapseInDays {int: integer} -- number of days for the estimate.
 
-  Keyword Arguments:
-    - reportedCases {int:integer} -- number of positive cases.
-    - avgDailyIncomeInUSD {numeric} --the average daily income in USD.
-    - avgDailyIncomePopulation {numeric} -- Average Daily Income Population.
-    - totalHospitalBeds {int:Integer} -- total available Hospital Beds.
+	Keyword Arguments:
+	- reportedCases {int:integer} -- number of positive cases.
+	- avgDailyIncomeInUSD {numeric} --the average daily income in USD.
+	- avgDailyIncomePopulation {numeric} -- Average Daily Income Population.
+	- totalHospitalBeds {int:Integer} -- total available Hospital Beds.
 
-  Returns:
-    - dict() -- values for the Novel covid-19
-  """
+	Returns:
+	- dict() -- values for the Novel covid-19
+	"""
 
-  multiplier = 2 ** int(timeToElapseInDays / 3)
-  expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
-  aDIIU = data["avgDailyIncomeInUSD"]
-  aDIP = data["avgDailyIncomePopulation"]
+	multiplier = 2 ** int(timeToElapseInDays / 3)
+	expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
+	aDIIU = data["avgDailyIncomeInUSD"]
+	aDIP = data["avgDailyIncomePopulation"]
 
-  cI = data["reportedCases"] * impact
-  iBRT = cI * multiplier
-  sCBRT = iBRT * 0.15
-  hBBRT = expectedHospitalBeds - sCBRT
-  cFICUBRT = iBRT * 0.05,
-  cFVBRT = iBRT * 0.02
-  dollarsInFlight = iBRT * timeToElapseInDays * aDIIU * aDIP
+	cI = data["reportedCases"] * impact
+	iBRT = cI * multiplier
+	sCBRT = iBRT * 0.15
+	hBBRT = expectedHospitalBeds - sCBRT
+	cFICUBRT = iBRT * 0.05,
+	cFVBRT = iBRT * 0.02
+	dollarsInFlight = iBRT * timeToElapseInDays * aDIIU * aDIP
 
-  return {
-    "currentlyInfected": cI,
-    "infectionsByRequestedTime": iBRT,
-    "severeCasesByRequestedTime": sCBRT,
-    "hospitalBedsByRequestedTime": hBBRT,
-    "casesForICUByRequestedTime": cFICUBRT,
-    "casesForVentilatorsByRequestedTime": cFVBRT,
-    "dollarsInFlight": dollarsInFlight
-    } 
+	return {
+		"currentlyInfected": cI,
+		"infectionsByRequestedTime": iBRT,
+		"severeCasesByRequestedTime": sCBRT,
+		"hospitalBedsByRequestedTime": hBBRT,
+		"casesForICUByRequestedTime": cFICUBRT,
+		"casesForVentilatorsByRequestedTime": cFVBRT,
+		"dollarsInFlight": dollarsInFlight
+	} 
