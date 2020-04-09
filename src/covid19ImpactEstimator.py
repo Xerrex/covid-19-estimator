@@ -26,19 +26,19 @@ data_expected = {
 
 
 def days_calculator(periodType, period):
-  """Calculates days from period and the period type 
+  """Calculates days from period and the period type
   provided in arguements.
-  
+
   It assumes a month has 30 days.
 
   Arguments:
     - periodType {str:String} 
-        -- type in which period is provided ie. days, weeks, months
+        -- type in which period is provided ie. days, weeks, months.
 
     - period {int:Integer} -- numeric value of the quantity of time.
   
   Returns:
-    - int:Integer -- the number of days 
+    - int:Integer -- the number of days.
   """
 
   if periodType == "days":
@@ -49,7 +49,7 @@ def days_calculator(periodType, period):
     days = period * 30
   else:
     return None
-  
+
   return int(days)
 
 
@@ -63,8 +63,8 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
     - 5%  of infections cases require ICU.
 
   Arguments:
-    - impact {int: integer} -- value to multiply reported cases 
-        as per scenario ie. best_case or worstcase
+    - impact {int: integer} -- value to multiply reported cases.
+        as per scenario ie. best_case or worstcase.
     - timeToElapseInDays {int: integer} -- number of days for the estimate.
 
   Keyword Arguments:
@@ -76,12 +76,11 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
   Returns:
     - dict() -- values for the Novel covid-19
   """
-  
+
   multiplier = 2 ** int(timeToElapseInDays / 3)
   expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
   aDIIU = data["avgDailyIncomeInUSD"]
   aDIP = data["avgDailyIncomePopulation"]
-
 
   cI = data["reportedCases"] * impact
   iBRT = cI * multiplier
@@ -89,15 +88,14 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
   hBBRT = expectedHospitalBeds - sCBRT
   cFICUBRT = iBRT * 0.05,
   cFVBRT = iBRT * 0.02
-  dollarsInFlight = iBRT* timeToElapseInDays * aDIIU * aDIP
+  dollarsInFlight = iBRT * timeToElapseInDays * aDIIU * aDIP
 
   return {
-      "currentlyInfected": cI,
-      "infectionsByRequestedTime": iBRT,
-			"severeCasesByRequestedTime": sCBRT,
-      "hospitalBedsByRequestedTime":  hBBRT,
-      "casesForICUByRequestedTime": cFICUBRT,
-      "casesForVentilatorsByRequestedTime": cFVBRT,
-      "dollarsInFlight": dollarsInFlight
+    "currentlyInfected": cI,
+    "infectionsByRequestedTime": iBRT,
+    "severeCasesByRequestedTime": sCBRT,
+    "hospitalBedsByRequestedTime": hBBRT,
+    "casesForICUByRequestedTime": cFICUBRT,
+    "casesForVentilatorsByRequestedTime": cFVBRT,
+    "dollarsInFlight": dollarsInFlight
     } 
-
