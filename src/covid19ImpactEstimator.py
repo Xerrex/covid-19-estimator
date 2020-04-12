@@ -59,6 +59,7 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	- 15% severe positive cases require hospitalization to recover.
 	- 35% bed availability in hospitals for severe.
 	- 5%  of infections cases require ICU.
+	- 2% of infections require ventilators.
 
 	Arguments:
 	- impact {int: integer} -- value to multiply reported cases.
