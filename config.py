@@ -1,4 +1,4 @@
-"""Hold the app configuration
+"""Hold the api configuration
 """
 import os
 
