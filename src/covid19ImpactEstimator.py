@@ -87,7 +87,7 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	cFICUBRT = iBRT * 0.05
 	cFVBRT = iBRT * 0.02
 
-	dollarsInFlight = iBRT * aDIIU * aDIP * timeToElapseInDays
+	dollarsInFlight = (iBRT * aDIIU * aDIP) / timeToElapseInDays
 
 	return {
 		"currentlyInfected": int(cI),
