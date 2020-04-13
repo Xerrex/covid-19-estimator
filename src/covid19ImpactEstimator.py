@@ -77,25 +77,25 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	"""
 
 	multiplier = 2 ** int(timeToElapseInDays / 3)
-	expectedHospitalBeds = data["totalHospitalBeds"] * 0.35
+	expectedHospitalBeds = int(data["totalHospitalBeds"] * 0.35)
 	aDIIU = data["avgDailyIncomeInUSD"]
 	aDIP = data["avgDailyIncomePopulation"]
 
 	cI = data["reportedCases"] * impact
 	iBRT = cI * multiplier
-	sCBRT = iBRT * 0.15
+	sCBRT = int(iBRT * 0.15)
 	hBBRT = expectedHospitalBeds - sCBRT
-	cFICUBRT = iBRT * 0.05
-	cFVBRT = iBRT * 0.02
+	cFICUBRT = int(iBRT * 0.05)
+	cFVBRT = int(iBRT * 0.02)
 
-	dollarsInFlight = (iBRT * aDIIU * aDIP) / timeToElapseInDays
+	dollarsInFlight = int((iBRT * aDIIU * aDIP) / timeToElapseInDays)
 
 	return {
-		"currentlyInfected": int(cI),
-		"infectionsByRequestedTime": int(iBRT),
-		"severeCasesByRequestedTime": int(sCBRT),
-		"hospitalBedsByRequestedTime": int(hBBRT),
-		"casesForICUByRequestedTime": int(cFICUBRT),
-		"casesForVentilatorsByRequestedTime": int(cFVBRT),
-		"dollarsInFlight": int(dollarsInFlight)
+		"currentlyInfected": cI,
+		"infectionsByRequestedTime": iBRT,
+		"severeCasesByRequestedTime": sCBRT,
+		"hospitalBedsByRequestedTime": hBBRT,
+		"casesForICUByRequestedTime": cFICUBRT,
+		"casesForVentilatorsByRequestedTime": cFVBRT,
+		"dollarsInFlight": dollarsInFlight
 	} 
