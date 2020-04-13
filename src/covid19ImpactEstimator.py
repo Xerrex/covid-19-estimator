@@ -76,15 +76,15 @@ def covid19ImpactEstimator(impact, timeToElapseInDays, **data):
 	- dict() -- values for the Novel covid-19
 	"""
 
-	multiplier = 2 ** int(timeToElapseInDays / 3)
+	multiplier = int(2 ** int(timeToElapseInDays / 3))
 	expectedHospitalBeds = int(data["totalHospitalBeds"] * 0.35)
 	aDIIU = data["avgDailyIncomeInUSD"]
 	aDIP = data["avgDailyIncomePopulation"]
 
-	cI = data["reportedCases"] * impact
-	iBRT = cI * multiplier
+	cI = int(data["reportedCases"] * impact)
+	iBRT = int(cI * multiplier)
 	sCBRT = int(iBRT * 0.15)
-	hBBRT = expectedHospitalBeds - sCBRT
+	hBBRT = int(expectedHospitalBeds - sCBRT)
 	cFICUBRT = int(iBRT * 0.05)
 	cFVBRT = int(iBRT * 0.02)
 

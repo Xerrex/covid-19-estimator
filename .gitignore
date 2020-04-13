@@ -20,7 +20,7 @@ audits/
 venv/
 
 #.env
-.env
+.*env
 
 # __pycache__
 src/__pycache__
