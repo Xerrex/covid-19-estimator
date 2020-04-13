@@ -53,7 +53,7 @@ def read_log_to_file(path='endpoint_logs.txt'):
 def estimates_xml_serializer(estimates):
     """Create an xml document from estimates
 
-    Expected data:
+    Expected structure of estimates:
     {
       "data": {
         "periodType": "days",

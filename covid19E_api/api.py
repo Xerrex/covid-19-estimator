@@ -36,7 +36,7 @@ def set_response_status_code(response):
 def save_logs_here(error=None):
     current_now = datetime.utcnow().timestamp()
     a = current_now - endpoint_log['time_accessed_timestamp']
-    endpoint_log['time_elapsed_milliseconds'] = f'{(a * 1000):.3f} ms'
+    endpoint_log['time_elapsed_milliseconds'] = f'{(a * 1000):.3f}ms'
     write_log_to_file(**endpoint_log)
     endpoint_log.clear()
 
